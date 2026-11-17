@@ -61,7 +61,7 @@ export default function Home() {
               </div>
               <p className="mt-5 text-sm text-ink-soft">A student product concept, currently in development.</p>
             </div>
-            <PillowScene className="relative lg:-mr-10" />
+            <PillowScene preload className="relative lg:-mr-10" />
           </div>
         </section>
 

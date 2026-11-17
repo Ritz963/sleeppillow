@@ -32,7 +32,7 @@ export default function ReservePage() {
             <p className="mt-4 max-w-lg text-lg text-ink-soft">
               One pillow for your whole wind-down: cooling, calming wave audio, gentle haptics, and optional app blocking, all set from one app.
             </p>
-            <PillowScene callouts={false} className="mx-auto mt-4 max-w-xl" />
+            <PillowScene callouts={false} preload className="mx-auto mt-4 max-w-xl" />
             <ul className="mt-2 grid grid-cols-2 gap-3" aria-label="What's included">
               {CALLOUTS.map((c) => (
                 <li key={c.label} className="flex items-center gap-3 rounded-2xl border border-white bg-white/70 p-2 pr-3">
