@@ -1,26 +1,174 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-face), var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* Landing (light lavender) palette */
+  --color-ink: #11103f;
+  --color-ink-soft: #46456f;
+  --color-iris: #3a2cf2;
+  --color-iris-600: #2c1fd4;
+  --color-iris-400: #6c5cff;
+  --color-lav-50: #f8f7fe;
+  --color-lav-100: #f2f0fd;
+  --color-lav-200: #e7e3fb;
+  --color-lav-300: #d7d1f6;
+  --color-lav-400: #b9b0ee;
+  --color-mint-100: #dcf8f0;
+  --color-mint-200: #bdf1e3;
+  --color-mint-400: #4fd4b2;
+  --color-mint-700: #0f7a60;
+
+  /* App (night) palette */
+  --color-night-950: #090830;
+  --color-night-900: #100f45;
+  --color-night-850: #151459;
+  --color-night-800: #1c1a6a;
+  --color-night-700: #29278e;
+  --color-moon: #dcd8ff;
+  --color-haze: #aaa5ea;
+  --color-glow: #6a5cff;
+  --color-glow-600: #5145e6;
+  --color-aqua: #8ff2da;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-lav-50);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Visible, consistent focus ring on both themes (in the base layer so utilities can override it) */
+@layer base {
+  :focus-visible {
+    outline: 3px solid var(--color-iris-400);
+    outline-offset: 3px;
+  }
+  .theme-night :focus-visible {
+    outline-color: var(--color-aqua);
+  }
+}
+
+/* Anchored sections clear the sticky nav */
+section[id] {
+  scroll-margin-top: 6rem;
+}
+
+/* ---------- Motion (all disabled for reduced motion below) ---------- */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(18px); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(0.82); opacity: 0.55; }
+  40% { transform: scale(1); opacity: 0.95; }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.7); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@keyframes wave-shift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes toast-in {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+
+.anim-float { animation: float-slow 7s ease-in-out infinite; }
+.anim-drift { animation: drift 16s ease-in-out infinite; }
+.anim-twinkle { animation: twinkle 3.2s ease-in-out infinite; }
+.anim-breathe { animation: breathe 10s ease-in-out infinite; }
+.anim-pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
+.anim-wave { animation: wave-shift 18s linear infinite; }
+.anim-sheet { animation: sheet-up 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.anim-fade { animation: fade-in 0.2s ease-out; }
+.anim-toast { animation: toast-in 0.25s ease-out; }
+.anim-spin { animation: spin 0.9s linear infinite; }
+.anim-eq { animation: eq 0.9s ease-in-out infinite; transform-origin: bottom; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .anim-breathe, .anim-pulse-ring, .anim-eq, .anim-float, .anim-drift, .anim-wave, .anim-twinkle {
+    animation: none !important;
+  }
+}
+
+/* Phone screen scroll area: hide scrollbar chrome but keep scrolling */
+.phone-scroll {
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+.phone-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Range input styling for the app volume slider */
+.night-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-aqua) var(--fill, 50%), rgba(170, 165, 234, 0.25) var(--fill, 50%));
+  cursor: pointer;
+}
+.night-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(143, 242, 218, 0.35), 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.night-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(143, 242, 218, 0.35), 0 2px 8px rgba(0, 0, 0, 0.35);
 }

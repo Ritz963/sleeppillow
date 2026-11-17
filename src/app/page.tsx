@@ -1,69 +1,180 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, AudioWaveform, BarChart3, BedDouble, Leaf, Lock, MoonStar, Smartphone } from "lucide-react";
+import { WaitlistForm } from "@/components/forms/WaitlistForm";
+import { Cloud, CloudBank } from "@/components/site/Clouds";
+import { JoinCta } from "@/components/site/JoinCta";
+import { PillowScene } from "@/components/site/PillowScene";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { SiteNav } from "@/components/site/SiteNav";
+import { TrackVisit } from "@/components/site/TrackVisit";
+import { MoonMark } from "@/components/site/Wordmark";
+
+const STEPS = [
+  { n: 1, title: "Set your bedtime", text: "Choose a time and how long to wind down.", Icon: Smartphone, tone: "mint" },
+  { n: 2, title: "Rest your head", text: "Put the phone down and settle in.", Icon: BedDouble, tone: "lav" },
+  { n: 3, title: "Let your routine begin", text: "Cooling, sound, and gentle haptics take over.", Icon: MoonStar, tone: "mint" },
+] as const;
+
+const FEATURES = [
+  { title: "Comfort first", text: "Cooling built into your routine for a restful wind-down.", Icon: Leaf, tone: "mint" },
+  { title: "Gentle guidance", text: "A calming mix of sound, feel, and cooling.", Icon: AudioWaveform, tone: "lav" },
+  { title: "Keeps you focused", text: "Optional app blocking to reduce late-night distractions.", Icon: Lock, tone: "mint" },
+  { title: "Personalized for you", text: "A routine that fits your life and your bedtime.", Icon: BarChart3, tone: "lav" },
+] as const;
+
+const toneClass = (tone: "mint" | "lav") => (tone === "mint" ? "bg-mint-200 text-ink" : "bg-lav-200 text-iris");
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <TrackVisit event="landing_visit" />
+      <SiteNav />
+      <main id="main" className="relative overflow-x-clip">
+        {/* ---------- Hero ---------- */}
+        <section className="relative px-4 pt-8 pb-10 sm:px-6 lg:pt-12">
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[42rem] bg-[radial-gradient(ellipse_at_70%_20%,#e2ddfb_0%,transparent_60%),radial-gradient(ellipse_at_0%_60%,#ece9fd_0%,transparent_55%)]" />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[1fr_1fr] lg:gap-4">
+            <div className="relative z-10">
+              <div className="flex items-start gap-3">
+                <p className="rounded-full bg-lav-200/80 px-5 py-2 text-xs font-bold tracking-[0.22em] text-ink uppercase sm:text-sm">
+                  A softer end to your day
+                </p>
+                <MoonMark className="-mt-5 hidden w-20 sm:block" />
+              </div>
+              <h1 className="mt-6 font-display text-[clamp(2.6rem,6.4vw,4.1rem)] leading-[1.02] font-bold tracking-[-0.035em] text-ink">
+                <span className="sm:whitespace-nowrap">From screen time</span>{" "}
+                <span className="sm:whitespace-nowrap">
+                  to <span className="bg-gradient-to-r from-iris to-iris-400 bg-clip-text text-transparent">dream time.</span>
+                </span>
+              </h1>
+              <p className="mt-5 max-w-md font-display text-xl leading-snug text-ink-soft sm:text-2xl">
+                Your bedtime routine, brought together in one pillow.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <JoinCta />
+                <Link
+                  href="/app"
+                  className="inline-flex items-center justify-center rounded-full border-2 border-lav-300 bg-white/70 px-7 py-4 text-[1.05rem] font-semibold text-ink transition-colors hover:border-iris hover:text-iris"
+                >
+                  Try the app
+                </Link>
+              </div>
+              <p className="mt-5 text-sm text-ink-soft">A student product concept, currently in development.</p>
+            </div>
+            <PillowScene className="relative lg:-mr-10" />
+          </div>
+        </section>
+
+        {/* ---------- How it works ---------- */}
+        <section id="how-it-works" aria-labelledby="how-title" className="relative px-4 pb-6 sm:px-6">
+          <div className="mx-auto max-w-6xl">
+            <h2 id="how-title" className="mb-4 text-center font-display text-sm font-bold tracking-[0.2em] text-ink-soft uppercase">
+              How it works
+            </h2>
+            <ol className="grid gap-3 rounded-[2rem] border border-white bg-white/70 p-4 shadow-[0_20px_50px_-30px_rgba(58,44,242,0.35)] backdrop-blur sm:p-6 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-center md:gap-4">
+              {STEPS.map((s, i) => (
+                <li key={s.n} className="contents">
+                  <div className="flex items-center gap-3">
+                    <span aria-hidden className={`grid size-11 shrink-0 place-items-center rounded-full font-display text-lg font-bold ${toneClass(s.tone)}`}>
+                      {s.n}
+                    </span>
+                    <span aria-hidden className="grid size-14 shrink-0 place-items-center rounded-full bg-lav-100 text-ink">
+                      <s.Icon className="size-6" />
+                    </span>
+                    <div>
+                      <h3 className="font-display text-lg font-semibold text-ink">
+                        <span className="sr-only">Step {s.n}: </span>
+                        {s.title}
+                      </h3>
+                      <p className="text-sm text-ink-soft">{s.text}</p>
+                    </div>
+                  </div>
+                  {i < STEPS.length - 1 && (
+                    <ArrowRight aria-hidden className="mx-auto size-6 rotate-90 text-mint-400 md:rotate-0" />
+                  )}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ---------- Features ---------- */}
+        <section id="features" aria-labelledby="features-title" className="relative px-4 py-16 sm:px-6">
+          <Cloud className="anim-drift absolute top-10 -left-16 w-56 opacity-70" />
+          <div className="relative mx-auto max-w-6xl">
+            <div className="mx-auto max-w-2xl text-center">
+              <h2 id="features-title" className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+                Everything your wind-down needs, in one pillow
+              </h2>
+              <p className="mt-3 text-ink-soft">Fewer apps and fewer decisions at the end of the day.</p>
+            </div>
+            <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {FEATURES.map((f) => (
+                <li
+                  key={f.title}
+                  className="rounded-[1.75rem] border border-lav-200 bg-white/80 p-6 shadow-[0_20px_40px_-30px_rgba(58,44,242,0.4)] transition-transform hover:-translate-y-1"
+                >
+                  <span aria-hidden className={`grid size-16 place-items-center rounded-full ${toneClass(f.tone)}`}>
+                    <f.Icon className="size-7" />
+                  </span>
+                  <h3 className="mt-5 font-display text-xl font-bold text-ink">{f.title}</h3>
+                  <p className="mt-1.5 text-ink-soft">{f.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ---------- Our story ---------- */}
+        <section id="our-story" aria-labelledby="story-title" className="relative px-4 pb-16 sm:px-6">
+          <div className="mx-auto grid max-w-6xl gap-6 rounded-[2rem] bg-gradient-to-br from-lav-200 via-lav-100 to-white p-6 sm:p-10 md:grid-cols-[1.3fr_1fr] md:items-center">
+            <div>
+              <p className="text-sm font-bold tracking-[0.2em] text-iris uppercase">Our story</p>
+              <h2 id="story-title" className="mt-2 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+                Built by students who scroll too late, too.
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+                We&apos;re a student team exploring a better transition from scrolling to sleep. Instead of another app competing for attention,
+                SleepPillow brings the wind-down into the pillow itself, so putting the phone away feels like the start of something calm.
+              </p>
+            </div>
+            <dl className="space-y-3 rounded-[1.5rem] border border-white bg-white/80 p-6">
+              {[
+                ["Status", "Concept in development"],
+                ["Built for", "Students and early-career professionals"],
+                ["What we're testing", "Whether this routine helps you put the phone down"],
+              ].map(([k, v]) => (
+                <div key={k} className="border-b border-lav-200 pb-3 last:border-0 last:pb-0">
+                  <dt className="text-xs font-bold tracking-wider text-ink-soft uppercase">{k}</dt>
+                  <dd className="mt-0.5 font-semibold text-ink">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+
+        {/* ---------- Waitlist ---------- */}
+        <section id="waitlist" aria-labelledby="waitlist-title" className="relative px-4 pt-4 pb-24 sm:px-6">
+          <div className="relative mx-auto max-w-2xl rounded-[2rem] border border-white bg-white/85 p-6 shadow-[0_30px_60px_-30px_rgba(58,44,242,0.45)] backdrop-blur sm:p-10">
+            <MoonMark className="absolute -top-8 right-8 w-16" />
+            <div className="mb-6 text-center">
+              <h2 id="waitlist-title" className="font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+                Join the waitlist
+              </h2>
+              <p className="mt-2 text-ink-soft">Hear first when we start testing SleepPillow.</p>
+            </div>
+            <WaitlistForm />
+          </div>
+          <p className="relative mt-6 text-center text-ink-soft">
+            Curious about the price?{" "}
+            <Link href="/reserve" className="rounded font-semibold text-iris underline-offset-4 hover:underline">
+              See it and reserve a spot
+            </Link>
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+          <CloudBank className="absolute inset-x-0 bottom-0 h-28 w-full" />
+        </section>
       </main>
-    </div>
+      <SiteFooter />
+    </>
   );
 }
