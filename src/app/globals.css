@@ -119,6 +119,10 @@ section[id] {
 .anim-drift { animation: drift 16s ease-in-out infinite; }
 .anim-twinkle { animation: twinkle 3.2s ease-in-out infinite; }
 .anim-breathe { animation: breathe 10s ease-in-out infinite; }
+@keyframes rise-in {
+  from { opacity: 0; translate: 0 0.9rem; }
+}
+.anim-rise { animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .anim-pulse-ring { animation: pulse-ring 1.8s ease-out infinite; }
 .anim-wave { animation: wave-shift 18s linear infinite; }
 .anim-sheet { animation: sheet-up 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
@@ -126,6 +130,19 @@ section[id] {
 .anim-toast { animation: toast-in 0.25s ease-out; }
 .anim-spin { animation: spin 0.9s linear infinite; }
 .anim-eq { animation: eq 0.9s ease-in-out infinite; transform-origin: bottom; }
+
+/* Scroll reveal (see Reveal.tsx): only hidden when JS runs and motion is welcome */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .reveal {
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal:not([data-shown]) {
+    opacity: 0;
+    translate: 0 1.75rem;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

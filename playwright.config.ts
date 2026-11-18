@@ -11,6 +11,8 @@ export default defineConfig({
     baseURL: `http://localhost:${PORT}`,
     // Uses your installed Google Chrome; run `npx playwright install chromium` and drop this line to use the bundled browser.
     channel: process.env.CI ? undefined : "chrome",
+    // Software WebGL so the 3D hero renders in headless runs.
+    launchOptions: { args: ["--enable-unsafe-swiftshader"] },
   },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"], channel: process.env.CI ? undefined : "chrome", viewport: { width: 1440, height: 900 } } },

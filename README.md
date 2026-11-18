@@ -4,7 +4,7 @@ Student product concept site: a landing page with waitlist signup, an interactiv
 
 | Route | What it is |
 | --- | --- |
-| `/` | Landing page and waitlist form |
+| `/` | Landing page with an interactive 3D pillow, and the waitlist form |
 | `/app` | Interactive app prototype (Tonight, Routine, Sounds, Device). Hardware is simulated. |
 | `/reserve` | Proposed price and nonbinding reservation form. No payment is collected. |
 
@@ -98,3 +98,10 @@ Any Node host works with `npm run build && npm start`.
 - Soundscapes are generated live with the Web Audio API, so there are no audio files or licenses to manage. Only one sound plays at a time, and nothing plays until someone presses a button.
 - The countdown is based on an absolute end time. It stays correct across tab switches, background tabs, and reloads.
 - Pillow connection, cooling, haptics, and app blocking are simulated and labeled as simulated. A browser can't control a pillow or block other apps.
+
+## Notes on the 3D pillow
+
+- The landing-page pillow is generated in code with three.js (`src/components/site/pillow3d/engine.ts`); there is no model file. three.js loads in its own chunk after the page renders.
+- Visitors can drag it, or focus it and use the arrow keys, to spin it. After a short pause it eases back to the front.
+- The feature callouts point at fixed points on the pillow's surface (`LAYOUT` in `HeroPillow.tsx`). Each frame those points are projected to the screen; a callout's dot and line fade out while its point faces away.
+- With reduced motion, the idle sway, bobbing, callout drift and return-to-front are switched off; dragging still works. Without WebGL, the static render in `src/assets/pillow.webp` is shown instead.
